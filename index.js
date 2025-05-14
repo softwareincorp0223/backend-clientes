@@ -1,40 +1,38 @@
-// index.js
-import express from 'express';
-import cors from 'cors';
+//CODIGO LOCAL
+import express from "express";
+import bodyParser from "body-parser";
+import prospectosRoutes from "./routes/prospectosRoutes.js";
+import dotenv from 'dotenv';
+import cors from "cors";
+
+// Cargar variables de entorno desde .env
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Habilita CORS para todos los orígenes
-app.use(cors());
+// Middleware para analizar el cuerpo de las solicitudes
+app.use(bodyParser.json());
 
-// Si quieres permitir solo un origen específico:
-// app.use(cors({ origin: 'http://localhost:5173' }));
+const dominiosPermitidos = [process.env.BACKEND_URL, process.env.FRONTEND_URL];
 
-app.use(express.json());
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Permitir solicitudes sin origen, como las hechas desde herramientas como Postman o localhost
+    if (!origin || dominiosPermitidos.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("No permitido por CORS"));
+    }
+  },
+};
 
-// Ruta POST
-app.post('/api/usuarios', (req, res) => {
-  const { nombre, edad } = req.body;
+app.use(cors(corsOptions));
 
-  if (!nombre || !edad) {
-    return res.status(400).json({ mensaje: 'Faltan datos' });
-  }
+// Rutas de usuario
+app.use('/api', prospectosRoutes);
 
-  res.status(201).json({
-    mensaje: 'Usuario creado correctamente',
-    usuario: { nombre, edad }
-  });
-});
+const port = 4000;
 
-// Ruta GET
-app.get('/api/usuarios-get', (req, res) => {
-
-  res.status(201).json({
-    mensaje: 'Usuario creado correctamente'
-  });
-});
-
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
