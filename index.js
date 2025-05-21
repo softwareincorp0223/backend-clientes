@@ -2,6 +2,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import prospectosRoutes from "./routes/prospectosRoutes.js";
+import clientesRoutes from "./routes/clientesRoutes.js";
 import dotenv from 'dotenv';
 import cors from "cors";
 
@@ -30,6 +31,9 @@ app.use(cors(corsOptions));
 
 // Rutas de usuario
 app.use('/api', prospectosRoutes);
+
+// Rutas de cliente
+app.use('/api', clientesRoutes);
 
 const port = 4000;
 
