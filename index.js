@@ -1,6 +1,7 @@
 //CODIGO LOCAL
 import express from "express";
 import bodyParser from "body-parser";
+import usuarioRoutes from "./routes/usuarioRoutes.js";
 import prospectosRoutes from "./routes/prospectosRoutes.js";
 import clientesRoutes from "./routes/clientesRoutes.js";
 import dotenv from 'dotenv';
@@ -29,7 +30,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Rutas de usuario
+// Rutas de usaurio
+app.use('/api', usuarioRoutes);
+
+// Rutas de prospectos
 app.use('/api', prospectosRoutes);
 
 // Rutas de cliente
