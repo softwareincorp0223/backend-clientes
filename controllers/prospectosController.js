@@ -1,4 +1,5 @@
 import db from "../config/db.js";
+import { v4 as uuidv4 } from 'uuid';
 
 // Obtener todos los prospectos
 export const getProspectos = (req, res) => {
@@ -10,13 +11,15 @@ export const getProspectos = (req, res) => {
 };
 
 export const createProspecto = async (req, res) => {
-    const { prospecto_id, nombre_prospecto, correo_prospecto, telefono_prospecto, fuente_prospecto } = req.body;
+    const { nombre_prospecto, correo_prospecto, telefono_prospecto, fuente_prospecto } = req.body;
+    
+    const id = uuidv4().slice(0, 10);
 
     const insertUserQuery = 'INSERT INTO prospectos (prospecto_id, nombre_prospecto, correo_prospecto, telefono_prospecto, fuente_prospecto) VALUES (?, ?, ?, ?, ?)';
-    db.query(insertUserQuery, [prospecto_id, nombre_prospecto, correo_prospecto, telefono_prospecto, fuente_prospecto], async (err, result) => {
+    db.query(insertUserQuery, [id, nombre_prospecto, correo_prospecto, telefono_prospecto, fuente_prospecto], async (err, result) => {
         if (err) throw err;
         
-        res.status(201).json({ mensaje: "Prospecto creado" });
+        res.status(201).json({ type: "success", mensaje: "Prospecto creado" });
     });
 };
 

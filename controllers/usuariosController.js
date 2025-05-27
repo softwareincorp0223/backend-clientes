@@ -79,7 +79,7 @@ export const loginUsuario = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Contraseña incorrecta' });
         }
         
-        const { password_usuario, confirmado, ...perfil } = result[0];
+        const { password_usuario, ...perfil } = result[0];
 
         return res.status(200).json({ token: generarJWT(result[0].usuario_id), perfil });
     });
