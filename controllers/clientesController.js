@@ -1,4 +1,5 @@
 import db from "../config/db.js";
+import { v4 as uuidv4 } from 'uuid';
 
 // Obtener todos los clientes
 export const getClientes = (req, res) => {
@@ -12,11 +13,14 @@ export const getClientes = (req, res) => {
 export const createCliente = async (req, res) => {
     const { cliente_id , prospecto_sid, cotizacion_cliente, notas_cliente, fecha_conversion_cliente } = req.body;
 
+    const id = uuidv4().slice(0, 10);
+
     const insertUserQuery = 'INSERT INTO clientes (cliente_id, prospecto_sid, cotizacion_cliente, notas_cliente, fecha_conversion_cliente) VALUES (?, ?, ?, ?, ?)';
-    db.query(insertUserQuery, [cliente_id, prospecto_sid, cotizacion_cliente, notas_cliente, fecha_conversion_cliente], async (err, result) => {
+    db.query(insertUserQuery, [id, prospecto_sid, cotizacion_cliente, notas_cliente, fecha_conversion_cliente], async (err, result) => {
         if (err) throw err;
         
-        res.status(201).json({ mensaje: "Cliente creado" });
+        res.status(201).json({ type: "success", mensaje: "Cliente creado" });
+
     });
 };
 
