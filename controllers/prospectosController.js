@@ -28,12 +28,9 @@ export const updateProspecto = async (req, res) => {
 
     const updateQuery = 'UPDATE prospectos SET nombre_prospecto = ?, correo_prospecto = ?, telefono_prospecto = ?, fuente_prospecto = ? WHERE prospecto_id = ?';
     db.query(updateQuery, [nombre_prospecto, correo_prospecto, telefono_prospecto, fuente_prospecto, req.params.id], (err, updateResult) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).json({ success: false, message: 'Error al confirmar la cuenta' });
-        }
+        if (err) throw err;
 
-        return res.json({ mensaje: "Prospecto actualizado" });
+        res.status(201).json({ type: "success", mensaje: "Prospecto actualizado" });
     });
 };
 
@@ -44,6 +41,6 @@ export const deleteProspecto = async (req, res) => {
     db.query(deleteQuery, [id], (err, result) => {
         if (err) throw err;
 
-        res.json({ mensaje: "Prospecto eliminado" });
+        res.status(201).json({ type: "success", mensaje: "Prospecto eliminado" });
     });
 };
