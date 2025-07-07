@@ -6,6 +6,7 @@ import prospectosRoutes from "./routes/prospectosRoutes.js";
 import clientesRoutes from "./routes/clientesRoutes.js";
 import dotenv from 'dotenv';
 import cors from "cors";
+import path from 'path';
 
 // Cargar variables de entorno desde .env
 dotenv.config();
@@ -14,6 +15,8 @@ const app = express();
 
 // Middleware para analizar el cuerpo de las solicitudes
 app.use(bodyParser.json());
+
+app.use('/uploads', express.static(path.resolve('uploads')));
 
 const dominiosPermitidos = [process.env.BACKEND_URL, process.env.FRONTEND_URL];
 
