@@ -25,7 +25,7 @@ export const createUsuario = async (req, res) => {
         db.query(insertUserQuery, [id, nombre_usuario, correo_usuario, hash], async (err, result) => {
             if (err) throw err;
             
-            res.status(201).json({ message: 'Usuario registrado exitosamente.' });
+            res.status(201).json({ type: "success", mensaje: "Usuario registrado" });
         });
     });
 };
@@ -40,7 +40,7 @@ export const updateUsuario = async (req, res) => {
             return res.status(500).json({ success: false, message: 'Error al editar la cuenta' });
         }
 
-        return res.json({ mensaje: "Usuario actualizado" });
+        return res.status(201).json({ type: "success", mensaje: "Usuario actualizado" });
     });
 };
 
@@ -51,7 +51,7 @@ export const deleteUsuario = async (req, res) => {
     db.query(deleteQuery, [id], (err, result) => {
         if (err) throw err;
 
-        res.json({ mensaje: "Usuario eliminado" });
+        res.status(201).json({ type: "success", mensaje: "Usuario eliminado" });
     });
 };
 
